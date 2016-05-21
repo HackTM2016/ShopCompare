@@ -11,5 +11,139 @@
   },
   "host" : "[domain]:[port]",
   "basePath" : "/pricediff/rs",
-  "schemes" : [ "http", "https" ]
+  "tags" : [ {
+    "name" : "rest",
+    "description" : "Products resource"
+  } ],
+  "schemes" : [ "http", "https" ],
+  "paths" : {
+    "/rest/add" : {
+      "get" : {
+        "tags" : [ "rest" ],
+        "summary" : "Add product",
+        "description" : "",
+        "operationId" : "addProduct",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "gpsPosition",
+          "in" : "query",
+          "description" : "gps position.",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "barcode",
+          "in" : "query",
+          "description" : "barcode.",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "name",
+          "in" : "query",
+          "description" : "name.",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "category",
+          "in" : "query",
+          "description" : "category.",
+          "required" : true,
+          "type" : "string",
+          "enum" : [ "LACTATE", "FRUCTE", "CARNE", "DULCIURI" ]
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/ProductMdl"
+            }
+          }
+        }
+      }
+    },
+    "/rest/deal" : {
+      "get" : {
+        "tags" : [ "rest" ],
+        "summary" : "Find best deal",
+        "description" : "",
+        "operationId" : "findBestDeal",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "list",
+          "in" : "query",
+          "description" : "gps position.",
+          "required" : true,
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          },
+          "collectionFormat" : "multi"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "type" : "object"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/rest/find" : {
+      "get" : {
+        "tags" : [ "rest" ],
+        "summary" : "Find product",
+        "description" : "",
+        "operationId" : "findProduct",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "category",
+          "in" : "query",
+          "description" : "search category.",
+          "required" : true,
+          "type" : "string",
+          "enum" : [ "LACTATE", "FRUCTE", "CARNE", "DULCIURI" ]
+        }, {
+          "name" : "query",
+          "in" : "query",
+          "description" : "search query.",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/ProductMdl"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions" : {
+    "ProductMdl" : {
+      "type" : "object",
+      "properties" : {
+        "id" : {
+          "type" : "string"
+        },
+        "name" : {
+          "type" : "string"
+        },
+        "barcode" : {
+          "type" : "string"
+        },
+        "category" : {
+          "type" : "string",
+          "enum" : [ "LACTATE", "FRUCTE", "CARNE", "DULCIURI" ]
+        }
+      }
+    }
+  }
 }
