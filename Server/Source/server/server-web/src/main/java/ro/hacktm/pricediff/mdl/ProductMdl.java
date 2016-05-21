@@ -90,4 +90,8 @@ public class ProductMdl {
     public void setCategory(final CategoryMdl category) {
         this.category = category;
     }
+
+    public List<PriceMdl> getPrices() {
+        return prices;
+    }
 }

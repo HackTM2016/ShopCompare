@@ -4,15 +4,15 @@ import ro.hacktm.pricediff.mdl.CategoryMdl;
 import ro.hacktm.pricediff.mdl.GpsPosition;
 import ro.hacktm.pricediff.mdl.PriceMdl;
 import ro.hacktm.pricediff.mdl.ProductMdl;
+import ro.hacktm.pricediff.mdl.ProductResponseMdl;
 
 import javax.enterprise.context.RequestScoped;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
-import javax.transaction.Transactional;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -89,5 +89,52 @@ public class ProductsControl {
             manager.persist(productMdl);
         }
         return productMdl;
+    }
+
+    public List<ProductResponseMdl> findBestDeal(List<String> productIds) {
+        double min = Double.MAX_VALUE;
+        GpsPosition bestStore = null;
+        for (GpsPosition store : GpsPosition.values()) {
+            double sumProducts = 0;
+            for (String product : productIds) {
+                final ProductMdl productMdl = manager.find(ProductMdl.class, product);
+                sumProducts += getPriceForStore(productMdl.getPrices(), store).getPrice();
+            }
+            if (sumProducts < min) {
+                min = sumProducts;
+                bestStore = store;
+            }
+        }
+        List<ProductResponseMdl> responseMdls = new ArrayList<ProductResponseMdl>();
+        for (String product : productIds) {
+            ProductResponseMdl productResponseMdl = new ProductResponseMdl();
+            final ProductMdl productMdl = manager.find(ProductMdl.class, product);
+            productResponseMdl.setProductMdl(productMdl);
+            productResponseMdl.setBestPrice(getPriceForStore(productMdl.getPrices(), bestStore));
+            productResponseMdl.setOtherPrices(getOtherPricesExceptBest(productMdl.getPrices(), bestStore));
+            responseMdls.add(productResponseMdl);
+
+        }
+        return responseMdls;
+    }
+
+    private List<PriceMdl> getOtherPricesExceptBest(final List<PriceMdl> prices, final GpsPosition bestStore) {
+        List<PriceMdl> otherPrices = new ArrayList<PriceMdl>();
+        for (PriceMdl priceMdl : prices) {
+            if (priceMdl.getStore() != bestStore) {
+                otherPrices.add(priceMdl);
+            }
+        }
+        Collections.sort(otherPrices);
+        return otherPrices;
+    }
+
+    private PriceMdl getPriceForStore(final List<PriceMdl> prices, final GpsPosition store) {
+        for (PriceMdl priceMdl : prices) {
+            if (priceMdl.getStore() == store) {
+                return priceMdl;
+            }
+        }
+        throw new IllegalStateException("Store does not have this product");
     }
 }

@@ -12,6 +12,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import java.util.Comparator;
 
 /**
  * TODO document me.
@@ -21,7 +22,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = PriceMdl.TABLE)
-public class PriceMdl {
+public class PriceMdl implements Comparable<PriceMdl> {
 
     protected static final String SEQUENCE_SUFFIX = "_SEQ";
     protected static final int SEQUENCE_INITIAL_VALUE = 1;
@@ -44,6 +45,10 @@ public class PriceMdl {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "PRODUCT_ID")
     private ProductMdl product;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "USER_ID")
+    private ProfileMdl profile;
 
 //    @Temporal(TemporalType.TIMESTAMP)
 //    @Column(name = "CREATED_AT", updatable = false, nullable = false)
@@ -83,5 +88,9 @@ public class PriceMdl {
 
     public void setStore(final GpsPosition store) {
         this.store = store;
+    }
+
+    public int compareTo(final PriceMdl o) {
+        return (int) (this.getPrice() - o.getPrice());
     }
 }

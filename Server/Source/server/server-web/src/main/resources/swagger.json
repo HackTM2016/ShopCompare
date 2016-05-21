@@ -70,7 +70,7 @@
         "parameters" : [ {
           "name" : "list",
           "in" : "query",
-          "description" : "gps position.",
+          "description" : "list of product IDs",
           "required" : true,
           "type" : "array",
           "items" : {
@@ -84,7 +84,7 @@
             "schema" : {
               "type" : "array",
               "items" : {
-                "type" : "object"
+                "$ref" : "#/definitions/ProductResponseMdl"
               }
             }
           }
@@ -127,6 +127,22 @@
     }
   },
   "definitions" : {
+    "PriceMdl" : {
+      "type" : "object",
+      "properties" : {
+        "price" : {
+          "type" : "number",
+          "format" : "double"
+        },
+        "product" : {
+          "$ref" : "#/definitions/ProductMdl"
+        },
+        "store" : {
+          "type" : "string",
+          "enum" : [ "KAUFLAND_SAGULUI", "KAUFLAND_LAZAR", "PROFI_COMPLEX" ]
+        }
+      }
+    },
     "ProductMdl" : {
       "type" : "object",
       "properties" : {
@@ -142,6 +158,12 @@
         "category" : {
           "type" : "string",
           "enum" : [ "LACTATE", "FRUCTE", "CARNE", "DULCIURI" ]
+        },
+        "prices" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/PriceMdl"
+          }
         }
       }
     }

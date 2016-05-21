@@ -7,6 +7,7 @@ import ro.hacktm.pricediff.control.ProductsControl;
 import ro.hacktm.pricediff.mdl.CategoryMdl;
 import ro.hacktm.pricediff.mdl.GpsPosition;
 import ro.hacktm.pricediff.mdl.ProductMdl;
+import ro.hacktm.pricediff.mdl.ProductResponseMdl;
 
 import javax.ejb.Stateless;
 import javax.enterprise.context.RequestScoped;
@@ -77,10 +78,11 @@ public class ProductsEndpointRS {
 
     @GET
     @Path("deal")
-    @ApiOperation(value = "Find best deal", response = List.class)
+    @ApiOperation(value = "Find best deal", response = ProductResponseMdl[].class)
     public Response findBestDeal(
-            @NotNull @ApiParam(required = true, value = "gps position.") @QueryParam("list") final List<String> list
+            @NotNull @ApiParam(required = true, value = "list of product IDs") @QueryParam("list") final List<String> list
                               ) {
-        return Response.ok(list).build();
+        final List<ProductResponseMdl> bestDeal = productsControl.findBestDeal(list);
+        return Response.ok(bestDeal.toArray(new ProductResponseMdl[] {})).build();
     }
 }
