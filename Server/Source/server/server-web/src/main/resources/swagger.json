@@ -1,0 +1,171 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "pricediff Rest Services",
+    "version" : "v1",
+    "title" : "pricediff",
+    "termsOfService" : "http://www.github.com/kongchen/swagger-maven-plugin",
+    "contact" : {
+      "email" : "pricediff@hacktm.de"
+    }
+  },
+  "host" : "[domain]:[port]",
+  "basePath" : "/pricediff/rs",
+  "tags" : [ {
+    "name" : "rest",
+    "description" : "Products resource"
+  } ],
+  "schemes" : [ "http", "https" ],
+  "paths" : {
+    "/rest/add" : {
+      "get" : {
+        "tags" : [ "rest" ],
+        "summary" : "Add product",
+        "description" : "",
+        "operationId" : "addProduct",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "gpsPosition",
+          "in" : "query",
+          "description" : "gps position.",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "barcode",
+          "in" : "query",
+          "description" : "barcode.",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "name",
+          "in" : "query",
+          "description" : "name.",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "category",
+          "in" : "query",
+          "description" : "category.",
+          "required" : true,
+          "type" : "string",
+          "enum" : [ "LACTATE", "FRUCTE", "CARNE", "DULCIURI" ]
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/ProductMdl"
+            }
+          }
+        }
+      }
+    },
+    "/rest/deal" : {
+      "get" : {
+        "tags" : [ "rest" ],
+        "summary" : "Find best deal",
+        "description" : "",
+        "operationId" : "findBestDeal",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "list",
+          "in" : "query",
+          "description" : "list of product IDs",
+          "required" : true,
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          },
+          "collectionFormat" : "multi"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/ProductResponseMdl"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/rest/find" : {
+      "get" : {
+        "tags" : [ "rest" ],
+        "summary" : "Find product",
+        "description" : "",
+        "operationId" : "findProduct",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "category",
+          "in" : "query",
+          "description" : "search category.",
+          "required" : true,
+          "type" : "string",
+          "enum" : [ "LACTATE", "FRUCTE", "CARNE", "DULCIURI" ]
+        }, {
+          "name" : "query",
+          "in" : "query",
+          "description" : "search query.",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/ProductMdl"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions" : {
+    "PriceMdl" : {
+      "type" : "object",
+      "properties" : {
+        "price" : {
+          "type" : "number",
+          "format" : "double"
+        },
+        "product" : {
+          "$ref" : "#/definitions/ProductMdl"
+        },
+        "store" : {
+          "type" : "string",
+          "enum" : [ "KAUFLAND_SAGULUI", "KAUFLAND_LAZAR", "PROFI_COMPLEX" ]
+        }
+      }
+    },
+    "ProductMdl" : {
+      "type" : "object",
+      "properties" : {
+        "id" : {
+          "type" : "string"
+        },
+        "name" : {
+          "type" : "string"
+        },
+        "barcode" : {
+          "type" : "string"
+        },
+        "category" : {
+          "type" : "string",
+          "enum" : [ "LACTATE", "FRUCTE", "CARNE", "DULCIURI" ]
+        },
+        "prices" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/PriceMdl"
+          }
+        }
+      }
+    }
+  }
+}
