@@ -94,10 +94,20 @@ public class ProductsEndpointRS {
     @Path("deal")
     @ApiOperation(value = "Find best deal", response = ProductResponseMdl[].class)
     public ProductResponseMdl[] findBestDeal(
-            @NotNull @ApiParam(required = true, value = "list of product IDs") @QueryParam("list") final List<String> list
+            @NotNull @ApiParam(required = true, value = "list of product IDs") @QueryParam("list") String list
                               ) {
-        final List<ProductResponseMdl> bestDeal = productsControl.findBestDeal(list);
-        return bestDeal.toArray(new ProductResponseMdl[] {});
+        if (list != null && !list.isEmpty()) {
+            if (list.startsWith(",")) {
+                list = list.substring(1);
+            }
+            String[] ids = list.split(",");
+
+            if (!list.isEmpty()) {
+                final List<ProductResponseMdl> bestDeal = productsControl.findBestDeal(ids);
+                return bestDeal.toArray(new ProductResponseMdl[]{});
+            }
+        }
+        return new ProductResponseMdl[] {};
     }
 
     @GET

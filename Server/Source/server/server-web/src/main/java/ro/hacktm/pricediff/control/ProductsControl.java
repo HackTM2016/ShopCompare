@@ -98,6 +98,9 @@ public class ProductsControl {
 
         ProductMdl productMdl = getProductMdl(name, barcode, category);
         ProfileMdl profileMdl = getProfileMdl(userId);
+        if (profileMdl == null) {
+            throw new IllegalStateException("You must be logged in in order to add products");
+        }
 
         PriceMdl priceMdl = getPriceForUserAndStore(productMdl.getPrices(), userId, store);
         if (priceMdl == null) {
@@ -142,7 +145,7 @@ public class ProductsControl {
         return productMdl;
     }
 
-    public List<ProductResponseMdl> findBestDeal(List<String> productIds) {
+    public List<ProductResponseMdl> findBestDeal(String[] productIds) {
         double min = Double.MAX_VALUE;
         GpsPosition bestStore = null;
         for (GpsPosition store : GpsPosition.values()) {
@@ -160,15 +163,21 @@ public class ProductsControl {
                 //continue with the rest of the stores
             }
         }
-        if (bestStore == null) {
-            throw new IllegalStateException("Could not find any store that has all the products");
-        }
+//        if (bestStore == null) {
+//            throw new IllegalStateException("Could not find any store that has all the products");
+//        }
         List<ProductResponseMdl> responseMdls = new ArrayList<ProductResponseMdl>();
         for (String product : productIds) {
             ProductResponseMdl productResponseMdl = new ProductResponseMdl();
+            if (bestStore == null) {
+                min = 0;
+            }
+            productResponseMdl.setTotalSum(min);
             final ProductMdl productMdl = manager.find(ProductMdl.class, product);
             productResponseMdl.setProductMdl(productMdl);
-            productResponseMdl.setBestPrice(getPriceForStore(productMdl.getPrices(), bestStore));
+            if (bestStore != null) {
+                productResponseMdl.setBestPrice(getPriceForStore(productMdl.getPrices(), bestStore));
+            }
             productResponseMdl.setOtherPrices(getOtherPricesExceptBest(productMdl.getPrices(), bestStore));
             responseMdls.add(productResponseMdl);
 
@@ -180,6 +189,7 @@ public class ProductsControl {
         List<PriceMdl> otherPrices = new ArrayList<PriceMdl>();
         for (PriceMdl priceMdl : prices) {
             if (priceMdl.getStore() != bestStore) {
+                priceMdl.setImageUrl(priceMdl.getStore().getImageUrl());
                 otherPrices.add(priceMdl);
             }
         }
@@ -190,6 +200,7 @@ public class ProductsControl {
     private PriceMdl getPriceForStore(final List<PriceMdl> prices, final GpsPosition store) {
         for (PriceMdl priceMdl : prices) {
             if (priceMdl.getStore() == store) {
+                priceMdl.setImageUrl(store.getImageUrl());
                 return priceMdl;
             }
         }

@@ -12,6 +12,7 @@ public class ProductResponseMdl {
     private ProductMdl productMdl;
     private PriceMdl bestPrice;
     private List<PriceMdl> otherPrices;
+    private double totalSum;
 
     public ProductMdl getProductMdl() {
         return productMdl;
@@ -35,5 +36,13 @@ public class ProductResponseMdl {
 
     public void setOtherPrices(final List<PriceMdl> otherPrices) {
         this.otherPrices = otherPrices;
+    }
+
+    public double getTotalSum() {
+        return totalSum;
+    }
+
+    public void setTotalSum(final double totalSum) {
+        this.totalSum = totalSum;
     }
 }

@@ -62,6 +62,8 @@ public class PriceMdl implements Comparable<PriceMdl> {
     @Enumerated(EnumType.STRING)
     private GpsPosition store;
 
+    private transient String imageUrl;
+
     public double getPrice() {
         return price;
     }
@@ -104,5 +106,13 @@ public class PriceMdl implements Comparable<PriceMdl> {
 
     public void setProfile(final ProfileMdl profile) {
         this.profile = profile;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(final String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 }

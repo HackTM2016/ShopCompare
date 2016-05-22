@@ -7,7 +7,7 @@ import javax.persistence.metamodel.StaticMetamodel;
 import ro.hacktm.pricediff.mdl.CategoryMdl;
 import ro.hacktm.pricediff.mdl.PriceMdl;
 
-@Generated(value="EclipseLink-2.6.0.v20150330-rNA", date="2016-05-22T02:29:17")
+@Generated(value="EclipseLink-2.6.0.v20150330-rNA", date="2016-05-22T12:44:27")
 @StaticMetamodel(ProductMdl.class)
 public class ProductMdl_ { 
 
