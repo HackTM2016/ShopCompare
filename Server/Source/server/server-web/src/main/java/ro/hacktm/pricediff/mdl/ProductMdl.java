@@ -92,6 +92,9 @@ public class ProductMdl {
     }
 
     public List<PriceMdl> getPrices() {
+//        if (prices == null) {
+//            prices = new ArrayList<PriceMdl>();
+//        }
         return prices;
     }
 }

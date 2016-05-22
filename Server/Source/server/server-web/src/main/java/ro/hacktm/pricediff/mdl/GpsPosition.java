@@ -7,18 +7,20 @@ package ro.hacktm.pricediff.mdl;
  * @since 21.05.2016
  */
 public enum GpsPosition {
-    KAUFLAND_SAGULUI(45739566, 21212817),
-    KAUFLAND_LAZAR(45760772, 21220205),
-    PROFI_COMPLEX(45748815, 21239407);
+    KAUFLAND_SAGULUI(45739566, 21212817, "Strada Damaschin Bojinca 2-4, Timișoara 300216"),
+    KAUFLAND_LAZAR(45760772, 21220205, "Strada Gheorghe Lazar 26, Timișoara 300343"),
+    PROFI_COMPLEX(45748815, 21239407, "Aleea Studenților 2, Timișoara");
 
     private static final int THRESHOLD = 700;
 
     private long longitude;
     private long latitude;
+    private String adresa;
 
-    GpsPosition(long latitude, long longitude) {
+    GpsPosition(long latitude, long longitude, String adresa) {
         this.latitude = latitude;
         this.longitude = longitude;
+        this.adresa = adresa;
     }
 
     public static GpsPosition determineGpsPosition(double latitude, double longitude) {

@@ -1,0 +1,15 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "pricediff Rest Services",
+    "version" : "v1",
+    "title" : "pricediff",
+    "termsOfService" : "http://www.github.com/kongchen/swagger-maven-plugin",
+    "contact" : {
+      "email" : "pricediff@hacktm.de"
+    }
+  },
+  "host" : "[domain]:[port]",
+  "basePath" : "/pricediff/rs",
+  "schemes" : [ "http", "https" ]
+}

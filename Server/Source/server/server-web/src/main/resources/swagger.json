@@ -43,6 +43,18 @@
           "required" : true,
           "type" : "string"
         }, {
+          "name" : "userId",
+          "in" : "query",
+          "description" : "userId.",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "price",
+          "in" : "query",
+          "description" : "price.",
+          "required" : true,
+          "type" : "string"
+        }, {
           "name" : "category",
           "in" : "query",
           "description" : "category.",
@@ -55,6 +67,42 @@
             "description" : "successful operation",
             "schema" : {
               "$ref" : "#/definitions/ProductMdl"
+            }
+          }
+        }
+      }
+    },
+    "/rest/addProfile" : {
+      "get" : {
+        "tags" : [ "rest" ],
+        "summary" : "Add profile",
+        "description" : "",
+        "operationId" : "addProfile",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "username",
+          "in" : "query",
+          "description" : "username.",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "password",
+          "in" : "query",
+          "description" : "password.",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "email",
+          "in" : "query",
+          "description" : "email.",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/ProfileMdl"
             }
           }
         }
@@ -124,6 +172,23 @@
           }
         }
       }
+    },
+    "/rest/resp" : {
+      "get" : {
+        "tags" : [ "rest" ],
+        "summary" : "Find resp",
+        "description" : "",
+        "operationId" : "productResponse",
+        "produces" : [ "application/json" ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/ProductResponseMdl"
+            }
+          }
+        }
+      }
     }
   },
   "definitions" : {
@@ -136,6 +201,13 @@
         },
         "product" : {
           "$ref" : "#/definitions/ProductMdl"
+        },
+        "profile" : {
+          "$ref" : "#/definitions/ProfileMdl"
+        },
+        "createdAt" : {
+          "type" : "string",
+          "format" : "date-time"
         },
         "store" : {
           "type" : "string",
@@ -158,6 +230,46 @@
         "category" : {
           "type" : "string",
           "enum" : [ "LACTATE", "FRUCTE", "CARNE", "DULCIURI" ]
+        },
+        "prices" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/PriceMdl"
+          }
+        }
+      }
+    },
+    "ProductResponseMdl" : {
+      "type" : "object",
+      "properties" : {
+        "productMdl" : {
+          "$ref" : "#/definitions/ProductMdl"
+        },
+        "bestPrice" : {
+          "$ref" : "#/definitions/PriceMdl"
+        },
+        "otherPrices" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/PriceMdl"
+          }
+        }
+      }
+    },
+    "ProfileMdl" : {
+      "type" : "object",
+      "properties" : {
+        "id" : {
+          "type" : "string"
+        },
+        "username" : {
+          "type" : "string"
+        },
+        "password" : {
+          "type" : "string"
+        },
+        "email" : {
+          "type" : "string"
         },
         "prices" : {
           "type" : "array",
