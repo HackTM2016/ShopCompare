@@ -24,8 +24,10 @@ class SearchController: UIViewController, UITableViewDelegate, UITableViewDataSo
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        foundInfoLabel.text = "\(list!.count) produse gasite"
-
+        if let lista = list {
+            foundInfoLabel.text = "\(lista.count) produse gasite"
+        }
+    
         table.delegate = self
         table.dataSource = self
     }
@@ -44,7 +46,28 @@ class SearchController: UIViewController, UITableViewDelegate, UITableViewDataSo
         
         cell.productName.text = list![indexPath.row].name
         cell.categoryView.backgroundColor = UIColor(hexString:categoryColor[(list![indexPath.row].category?.rawValue)!]!)
+        cell.product = list![indexPath.row]
+        cell.addButton.hidden = false
+        cell.selectionStyle = .None
+        
+        if let id = list![indexPath.row].id {
+            if AppModel.instanta.selectedItemsID.rangeOfString(","+id) != nil{
+                cell.addButton.enabled = false
+                cell.addButton.hidden = true
+            }
+        }
         
         return cell
+    }
+    
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        
+        if let id = list![indexPath.row].id {
+            if AppModel.instanta.selectedItemsID.rangeOfString(","+id) == nil {
+                
+                let cell = tableView.cellForRowAtIndexPath(indexPath) as! SearchTableCell
+                cell.addButtonPressed()
+            }
+        }
     }
 }

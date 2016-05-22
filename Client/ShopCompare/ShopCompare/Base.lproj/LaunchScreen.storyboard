@@ -3,6 +3,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
     </dependencies>
     <scenes>
         <!--View Controller-->
@@ -16,7 +17,20 @@
                     <view key="view" contentMode="scaleToFill" id="Ze5-6b-2t3">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logoBig" translatesAutoresizingMaskIntoConstraints="NO" id="vns-0S-qhF">
+                                <rect key="frame" x="150" y="156.5" width="300" height="287"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="300" id="Mtq-13-mIC"/>
+                                    <constraint firstAttribute="width" secondItem="vns-0S-qhF" secondAttribute="height" multiplier="865:828" id="c2q-sM-ZII"/>
+                                </constraints>
+                            </imageView>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="vns-0S-qhF" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="6OV-ff-waO"/>
+                            <constraint firstItem="vns-0S-qhF" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="Xw5-Ib-oBO"/>
+                        </constraints>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iYj-Kq-Ea1" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -24,4 +38,7 @@
             <point key="canvasLocation" x="53" y="375"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="logoBig" width="865" height="828"/>
+    </resources>
 </document>

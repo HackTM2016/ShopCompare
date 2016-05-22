@@ -8,7 +8,7 @@ import Foundation
 import Alamofire
 
 public class SwaggerClientAPI {
-    public static var basePath = "http://[domain]:[port]/pricediff/rs"
+    public static var basePath = "http://[domain]:[port]/pricediff"
     public static var credential: NSURLCredential?
     public static var customHeaders: [String:String] = [:]  
     static var requestBuilderFactory: RequestBuilderFactory = AlamofireRequestBuilderFactory()

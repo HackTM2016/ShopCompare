@@ -17,17 +17,11 @@ public class ProductMdl: JSONEncodable {
         case Dulciuri = "DULCIURI"
     }
     
-    public enum Store: String { 
-        case KauflandSagului = "KAUFLAND_SAGULUI"
-        case KauflandLazar = "KAUFLAND_LAZAR"
-        case ProfiComplex = "PROFI_COMPLEX"
-    }
-    
     public var id: String?
     public var name: String?
     public var barcode: String?
     public var category: Category?
-    public var store: Store?
+    public var prices: [PriceMdl]?
     
 
     public init() {}
@@ -39,7 +33,7 @@ public class ProductMdl: JSONEncodable {
         nillableDictionary["name"] = self.name
         nillableDictionary["barcode"] = self.barcode
         nillableDictionary["category"] = self.category?.rawValue
-        nillableDictionary["store"] = self.store?.rawValue
+        nillableDictionary["prices"] = self.prices?.encodeToJSON()
         let dictionary: [String:AnyObject] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

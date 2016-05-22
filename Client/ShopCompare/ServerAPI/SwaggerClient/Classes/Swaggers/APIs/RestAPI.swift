@@ -20,19 +20,34 @@ extension SwaggerClientAPI {
          - examples: [{contentType=application/json, example={
   "name" : "aeiou",
   "id" : "aeiou",
-  "store" : "aeiou",
   "category" : "aeiou",
+  "prices" : [ {
+    "createdAt" : "2016-05-22T11:02:42.365+0000",
+    "product" : "",
+    "price" : 1.3579000000000001069366817318950779736042022705078125,
+    "profile" : {
+      "password" : "aeiou",
+      "id" : "aeiou",
+      "prices" : [ "" ],
+      "email" : "aeiou",
+      "username" : "aeiou"
+    },
+    "imageUrl" : "aeiou",
+    "store" : "aeiou"
+  } ],
   "barcode" : "aeiou"
 }}]
          
          - parameter gpsPosition: (query) gps position.
          - parameter barcode: (query) barcode.
          - parameter name: (query) name.
+         - parameter userId: (query) userId.
+         - parameter price: (query) price.
          - parameter category: (query) category.
 
          - returns: RequestBuilder<ProductMdl> 
          */
-        public class func addProduct(gpsPosition gpsPosition: String, barcode: String, name: String, category: String) -> RequestBuilder<ProductMdl> {
+        public class func addProduct(gpsPosition gpsPosition: String, barcode: String, name: String, userId: String, price: String, category: String) -> RequestBuilder<ProductMdl> {
             let path = "/rest/add"
             let URLString = SwaggerClientAPI.basePath + path
             
@@ -40,11 +55,112 @@ extension SwaggerClientAPI {
                 "gpsPosition": gpsPosition,
                 "barcode": barcode,
                 "name": name,
+                "userId": userId,
+                "price": price,
                 "category": category
             ]
             let parameters = APIHelper.rejectNil(nillableParameters)
 
             let requestBuilder: RequestBuilder<ProductMdl>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
+
+            return requestBuilder.init(method: "GET", URLString: URLString, parameters: parameters, isBody: false)
+        }
+    
+        /**
+         
+         Add profile
+         
+         - GET /rest/addProfile
+         - 
+         - examples: [{contentType=application/json, example={
+  "password" : "aeiou",
+  "id" : "aeiou",
+  "prices" : [ {
+    "createdAt" : "2016-05-22T11:02:42.383+0000",
+    "product" : {
+      "name" : "aeiou",
+      "id" : "aeiou",
+      "category" : "aeiou",
+      "prices" : [ "" ],
+      "barcode" : "aeiou"
+    },
+    "price" : 1.3579000000000001069366817318950779736042022705078125,
+    "profile" : "",
+    "imageUrl" : "aeiou",
+    "store" : "aeiou"
+  } ],
+  "email" : "aeiou",
+  "username" : "aeiou"
+}}]
+         
+         - parameter username: (query) username.
+         - parameter password: (query) password.
+         - parameter email: (query) email.
+
+         - returns: RequestBuilder<ProfileMdl> 
+         */
+        public class func addProfile(username username: String, password: String, email: String) -> RequestBuilder<ProfileMdl> {
+            let path = "/rest/addProfile"
+            let URLString = SwaggerClientAPI.basePath + path
+            
+            let nillableParameters: [String:AnyObject?] = [
+                "username": username,
+                "password": password,
+                "email": email
+            ]
+            let parameters = APIHelper.rejectNil(nillableParameters)
+
+            let requestBuilder: RequestBuilder<ProfileMdl>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
+
+            return requestBuilder.init(method: "GET", URLString: URLString, parameters: parameters, isBody: false)
+        }
+    
+        /**
+         
+         Find best deal
+         
+         - GET /rest/deal
+         - 
+         - examples: [{contentType=application/json, example=[ {
+  "totalSum" : 1.3579000000000001069366817318950779736042022705078125,
+  "bestPrice" : "",
+  "productMdl" : {
+    "name" : "aeiou",
+    "id" : "aeiou",
+    "category" : "aeiou",
+    "prices" : [ {
+      "createdAt" : "2016-05-22T11:02:42.386+0000",
+      "product" : "",
+      "price" : 1.3579000000000001069366817318950779736042022705078125,
+      "profile" : {
+        "password" : "aeiou",
+        "id" : "aeiou",
+        "prices" : [ "" ],
+        "email" : "aeiou",
+        "username" : "aeiou"
+      },
+      "imageUrl" : "aeiou",
+      "store" : "aeiou"
+    } ],
+    "barcode" : "aeiou"
+  },
+  "otherPrices" : [ "" ]
+} ]}]
+         
+         - parameter list: (query) list of product IDs
+
+         - returns: RequestBuilder<[ProductResponseMdl]> 
+         */
+        public class func findBestDeal(list list: String) -> RequestBuilder<[ProductResponseMdl]> {
+            let path = "/rest/deal"
+            let URLString = SwaggerClientAPI.basePath + path
+            
+            let nillableParameters: [String:AnyObject?] = [
+                "list": list
+            ]
+            let parameters = APIHelper.rejectNil(nillableParameters)
+
+            let requestBuilder: RequestBuilder<[ProductResponseMdl]>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
 
             return requestBuilder.init(method: "GET", URLString: URLString, parameters: parameters, isBody: false)
         }
@@ -58,8 +174,21 @@ extension SwaggerClientAPI {
          - examples: [{contentType=application/json, example=[ {
   "name" : "aeiou",
   "id" : "aeiou",
-  "store" : "aeiou",
   "category" : "aeiou",
+  "prices" : [ {
+    "createdAt" : "2016-05-22T11:02:42.388+0000",
+    "product" : "",
+    "price" : 1.3579000000000001069366817318950779736042022705078125,
+    "profile" : {
+      "password" : "aeiou",
+      "id" : "aeiou",
+      "prices" : [ "" ],
+      "email" : "aeiou",
+      "username" : "aeiou"
+    },
+    "imageUrl" : "aeiou",
+    "store" : "aeiou"
+  } ],
   "barcode" : "aeiou"
 } ]}]
          
@@ -81,6 +210,52 @@ extension SwaggerClientAPI {
             let requestBuilder: RequestBuilder<[ProductMdl]>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
 
             return requestBuilder.init(method: "GET", URLString: URLString, parameters: parameters, isBody: false)
+        }
+    
+        /**
+         
+         Find resp
+         
+         - GET /rest/resp
+         - 
+         - examples: [{contentType=application/json, example={
+  "totalSum" : 1.3579000000000001069366817318950779736042022705078125,
+  "bestPrice" : "",
+  "productMdl" : {
+    "name" : "aeiou",
+    "id" : "aeiou",
+    "category" : "aeiou",
+    "prices" : [ {
+      "createdAt" : "2016-05-22T11:02:42.389+0000",
+      "product" : "",
+      "price" : 1.3579000000000001069366817318950779736042022705078125,
+      "profile" : {
+        "password" : "aeiou",
+        "id" : "aeiou",
+        "prices" : [ "" ],
+        "email" : "aeiou",
+        "username" : "aeiou"
+      },
+      "imageUrl" : "aeiou",
+      "store" : "aeiou"
+    } ],
+    "barcode" : "aeiou"
+  },
+  "otherPrices" : [ "" ]
+}}]
+
+         - returns: RequestBuilder<ProductResponseMdl> 
+         */
+        public class func productResponse() -> RequestBuilder<ProductResponseMdl> {
+            let path = "/rest/resp"
+            let URLString = SwaggerClientAPI.basePath + path
+            
+            let nillableParameters: [String:AnyObject?] = [:]
+            let parameters = APIHelper.rejectNil(nillableParameters)
+
+            let requestBuilder: RequestBuilder<ProductResponseMdl>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
+
+            return requestBuilder.init(method: "GET", URLString: URLString, parameters: parameters, isBody: true)
         }
     
     }

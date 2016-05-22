@@ -18,11 +18,18 @@ class MainViewController: UIViewController, UICollectionViewDelegate, UICollecti
     @IBOutlet weak var searchWidthConstraint: NSLayoutConstraint!
     @IBOutlet weak var browseButton: UIButton!
     @IBOutlet weak var profileButton: UIButton!
+    @IBOutlet weak var mainVIew: UIView!
 
     @IBOutlet weak var browseIndicator: UIView!
     @IBOutlet weak var profileIndicator: UIView!
     
     var searchCtrl : SearchController?
+    var addCtrl : AddProductController?
+    var listCtrl : MyListViewController?
+    var profilCtrl : ProfilController?
+    
+    var listOnScreen = false
+    var profilOnScreen = false
     
     let categories = [
         "LACTATE",
@@ -62,8 +69,13 @@ class MainViewController: UIViewController, UICollectionViewDelegate, UICollecti
         
         let storyboard = UIStoryboard(name: "Main", bundle: NSBundle(forClass: SearchController.self))
         searchCtrl = storyboard.instantiateViewControllerWithIdentifier("searchCtrl") as? SearchController
+        addCtrl = storyboard.instantiateViewControllerWithIdentifier("addCtrl") as? AddProductController
+        listCtrl = storyboard.instantiateViewControllerWithIdentifier("listCtrl") as? MyListViewController
+        profilCtrl = storyboard.instantiateViewControllerWithIdentifier("profile") as? ProfilController
+            
+        AppModel.instanta.userId = "1"
         
-        AppModel.sharedInstance.userId = 0
+        
 
     }
 
@@ -84,7 +96,6 @@ class MainViewController: UIViewController, UICollectionViewDelegate, UICollecti
     func toggleOffSearch() {
         textField.resignFirstResponder()
         
-//        addButton.setImage(nil, forState: .Normal)
         addButton.setTitle("+ Add Item", forState: .Normal)
         
         UIView.animateWithDuration(Double(1), animations: {
@@ -99,7 +110,6 @@ class MainViewController: UIViewController, UICollectionViewDelegate, UICollecti
         let screenSize: CGRect = UIScreen.mainScreen().bounds
         let screenWidth = screenSize.width
         
-//        addButton.setImage(UIImage(named:"add"), forState: .Normal)
         addButton.setTitle("+", forState: .Normal)
         
         UIView.animateWithDuration(Double(1), animations: {
@@ -128,13 +138,15 @@ class MainViewController: UIViewController, UICollectionViewDelegate, UICollecti
     
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
 
+        LoadingScreenCtrl.sharedInstance.showLoading()
+        
         // make the server request
         SwaggerClientAPI.RestAPI.findProduct(category: categories[indexPath.row], query: "").execute { (response, error) in
             
+            LoadingScreenCtrl.sharedInstance.hideLoading()
+            
             if error == nil && response != nil && response?.body.count > 0 {
                 self.showSearchScreenWithResponse(response?.body)
-                
-                print("\(response?.body[0].id)")
             }
         }
         
@@ -151,8 +163,35 @@ class MainViewController: UIViewController, UICollectionViewDelegate, UICollecti
         
     }
     
+    @IBAction func addProductButtonPressed() {
+        self.mainVIew.addSubview(addCtrl!.view)
+        addChildViewController(addCtrl!)
+    }
+    
+    @IBAction func listButtonPressed() {
+        
+        if listOnScreen == false {
+            self.mainVIew.addSubview(listCtrl!.view)
+            addChildViewController(listCtrl!)
+            browseIndicator.hidden = true
+            profileIndicator.hidden = true
+            browseButton.setTitle("Inapoi", forState: .Normal)
+            listCtrl?.refreshData()
+            listOnScreen = true
+        }
+        
+    }
+    
     @IBAction func profileButtonPressed(sender: AnyObject) {
         
+        if profilOnScreen == false {
+            self.mainVIew.addSubview(profilCtrl!.view)
+            addChildViewController(profilCtrl!)
+            browseIndicator.hidden = true
+            profileIndicator.hidden = false
+            listOnScreen = false
+            profilOnScreen = true
+        }
     }
     
     @IBAction func browseButtonPressed() {
@@ -160,7 +199,13 @@ class MainViewController: UIViewController, UICollectionViewDelegate, UICollecti
         searchCtrl!.removeFromParentViewController()
         browseIndicator.hidden = false
         browseButton.setTitle("Browse", forState: .Normal)
-
+        listCtrl!.view.removeFromSuperview()
+        listCtrl!.removeFromParentViewController()
+        profilCtrl?.view.removeFromSuperview()
+        profilCtrl?.removeFromParentViewController()
+        listOnScreen = false
+        profileIndicator.hidden = true
+        profilOnScreen = false
     }
     
 }

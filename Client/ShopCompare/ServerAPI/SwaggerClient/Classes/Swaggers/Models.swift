@@ -119,6 +119,24 @@ class Decoders {
                 return NSDate()
             } 
 
+			// Decoder for [PriceMdl]
+            Decoders.addDecoder(clazz: [PriceMdl].self) { (source: AnyObject) -> [PriceMdl] in
+                return Decoders.decode(clazz: [PriceMdl].self, source: source)
+            }
+			// Decoder for PriceMdl
+            Decoders.addDecoder(clazz: PriceMdl.self) { (source: AnyObject) -> PriceMdl in
+                let sourceDictionary = source as! [NSObject:AnyObject]
+                let instance = PriceMdl()
+                instance.price = Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["price"])
+                instance.product = Decoders.decodeOptional(clazz: ProductMdl.self, source: sourceDictionary["product"])
+                instance.profile = Decoders.decodeOptional(clazz: ProfileMdl.self, source: sourceDictionary["profile"])
+                instance.createdAt = Decoders.decodeOptional(clazz: NSDate.self, source: sourceDictionary["createdAt"])
+                instance.store = (sourceDictionary["store"] as? String).map { PriceMdl.Store(rawValue: $0)! } 
+                instance.imageUrl = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["imageUrl"])
+                return instance
+            }
+			
+
 			// Decoder for [ProductMdl]
             Decoders.addDecoder(clazz: [ProductMdl].self) { (source: AnyObject) -> [ProductMdl] in
                 return Decoders.decode(clazz: [ProductMdl].self, source: source)
@@ -131,7 +149,40 @@ class Decoders {
                 instance.name = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"])
                 instance.barcode = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["barcode"])
                 instance.category = (sourceDictionary["category"] as? String).map { ProductMdl.Category(rawValue: $0)! } 
-                instance.store = (sourceDictionary["store"] as? String).map { ProductMdl.Store(rawValue: $0)! } 
+                instance.prices = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["prices"])
+                return instance
+            }
+			
+
+			// Decoder for [ProductResponseMdl]
+            Decoders.addDecoder(clazz: [ProductResponseMdl].self) { (source: AnyObject) -> [ProductResponseMdl] in
+                return Decoders.decode(clazz: [ProductResponseMdl].self, source: source)
+            }
+			// Decoder for ProductResponseMdl
+            Decoders.addDecoder(clazz: ProductResponseMdl.self) { (source: AnyObject) -> ProductResponseMdl in
+                let sourceDictionary = source as! [NSObject:AnyObject]
+                let instance = ProductResponseMdl()
+                instance.productMdl = Decoders.decodeOptional(clazz: ProductMdl.self, source: sourceDictionary["productMdl"])
+                instance.bestPrice = Decoders.decodeOptional(clazz: PriceMdl.self, source: sourceDictionary["bestPrice"])
+                instance.otherPrices = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["otherPrices"])
+                instance.totalSum = Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["totalSum"])
+                return instance
+            }
+			
+
+			// Decoder for [ProfileMdl]
+            Decoders.addDecoder(clazz: [ProfileMdl].self) { (source: AnyObject) -> [ProfileMdl] in
+                return Decoders.decode(clazz: [ProfileMdl].self, source: source)
+            }
+			// Decoder for ProfileMdl
+            Decoders.addDecoder(clazz: ProfileMdl.self) { (source: AnyObject) -> ProfileMdl in
+                let sourceDictionary = source as! [NSObject:AnyObject]
+                let instance = ProfileMdl()
+                instance.id = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["id"])
+                instance.username = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["username"])
+                instance.password = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["password"])
+                instance.email = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["email"])
+                instance.prices = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["prices"])
                 return instance
             }
 			

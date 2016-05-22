@@ -24,10 +24,28 @@ class SearchTableCell: UITableViewCell {
         addButton.layer.borderWidth = 1
         addButton.layer.cornerRadius = 15
         statusButton.hidden =  true
+        
     }
     
     @IBAction func addButtonPressed() {
-    
+        
+            AppModel.instanta.selectedItemsID = AppModel.instanta.selectedItemsID + ",\(product!.id!)"
+            addButton.enabled = false
+            addButton.hidden = true
+            // TODO: change button color
+            
+            LoadingScreenCtrl.sharedInstance.showLoading()
+            
+            // make the best deal request
+            SwaggerClientAPI.RestAPI.findBestDeal(list: AppModel.instanta.selectedItemsID).execute { (response, error) in
+                
+                LoadingScreenCtrl.sharedInstance.hideLoading()
+                
+                if error == nil && response != nil {
+                    AppModel.instanta.shopingList = (response?.body)!
+                }
+            }
+        
     }
     
     @IBAction func statusButtonPressed() {

@@ -9,11 +9,15 @@
 import Foundation
 
 class AppModel {
-    static var sharedInstance = AppModel()
+    static var instanta = AppModel()
     
-    var userId: Int?
+    var userId: String?
+    var userCredits : Double = 22
+    var selectedItemsID = ""
+    var shopingList = [ProductResponseMdl]()
     
     init () {
         SwaggerClientAPI.basePath = NSBundle.mainBundle().infoDictionary?["ServerURL"] as! String
+        userId = "1"
     }
 }

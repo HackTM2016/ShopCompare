@@ -8,4 +8,3 @@ workspace ‘ShopCompare’
 
 pod 'Alamofire'
 pod 'AlamofireImage', '~> 2.0'
-pod 'QRCodeReader.swift', '~> 6.0.0'
