@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "C42F93231CF0836400B2F5C0"
+               BlueprintIdentifier = "C4A966B11CF094BA009179BD"
                BuildableName = "ShopCompare.app"
                BlueprintName = "ShopCompare"
                ReferencedContainer = "container:ShopCompare.xcodeproj">
@@ -32,7 +32,7 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "C42F93231CF0836400B2F5C0"
+            BlueprintIdentifier = "C4A966B11CF094BA009179BD"
             BuildableName = "ShopCompare.app"
             BlueprintName = "ShopCompare"
             ReferencedContainer = "container:ShopCompare.xcodeproj">
@@ -55,7 +55,7 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "C42F93231CF0836400B2F5C0"
+            BlueprintIdentifier = "C4A966B11CF094BA009179BD"
             BuildableName = "ShopCompare.app"
             BlueprintName = "ShopCompare"
             ReferencedContainer = "container:ShopCompare.xcodeproj">
@@ -74,7 +74,7 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "C42F93231CF0836400B2F5C0"
+            BlueprintIdentifier = "C4A966B11CF094BA009179BD"
             BuildableName = "ShopCompare.app"
             BlueprintName = "ShopCompare"
             ReferencedContainer = "container:ShopCompare.xcodeproj">
