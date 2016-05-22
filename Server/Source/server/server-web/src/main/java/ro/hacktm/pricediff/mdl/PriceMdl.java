@@ -12,7 +12,11 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import java.time.LocalDateTime;
 import java.util.Comparator;
+import java.util.Date;
 
 /**
  * TODO document me.
@@ -50,13 +54,15 @@ public class PriceMdl implements Comparable<PriceMdl> {
     @JoinColumn(name = "USER_ID")
     private ProfileMdl profile;
 
-//    @Temporal(TemporalType.TIMESTAMP)
-//    @Column(name = "CREATED_AT", updatable = false, nullable = false)
-//    private LocalDateTime createdAt;
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "CREATED_AT", updatable = false)
+    private Date createdAt;
 
     @Column(name = "STORE")
     @Enumerated(EnumType.STRING)
     private GpsPosition store;
+
+    private transient String imageUrl;
 
     public double getPrice() {
         return price;
@@ -74,13 +80,13 @@ public class PriceMdl implements Comparable<PriceMdl> {
         this.product = product;
     }
 
-//    public LocalDateTime getCreatedAt() {
-//        return createdAt;
-//    }
-//
-//    public void setCreatedAt(final LocalDateTime createdAt) {
-//        this.createdAt = createdAt;
-//    }
+    public Date getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(final Date createdAt) {
+        this.createdAt = createdAt;
+    }
 
     public GpsPosition getStore() {
         return store;
@@ -92,5 +98,21 @@ public class PriceMdl implements Comparable<PriceMdl> {
 
     public int compareTo(final PriceMdl o) {
         return (int) (this.getPrice() - o.getPrice());
+    }
+
+    public ProfileMdl getProfile() {
+        return profile;
+    }
+
+    public void setProfile(final ProfileMdl profile) {
+        this.profile = profile;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(final String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 }

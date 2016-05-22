@@ -10,7 +10,7 @@
     }
   },
   "host" : "[domain]:[port]",
-  "basePath" : "/pricediff",
+  "basePath" : "/pricediff/rs",
   "tags" : [ {
     "name" : "rest",
     "description" : "Products resource"
@@ -120,7 +120,11 @@
           "in" : "query",
           "description" : "list of product IDs",
           "required" : true,
-          "type" : "string"
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          },
+          "collectionFormat" : "multi"
         } ],
         "responses" : {
           "200" : {
@@ -207,10 +211,7 @@
         },
         "store" : {
           "type" : "string",
-          "enum" : [ "KAUFLAND_SAGULUI", "KAUFLAND_LAZAR", "PROFI_COMPLEX", "HACKTM" ]
-        },
-        "imageUrl" : {
-          "type" : "string"
+          "enum" : [ "KAUFLAND_SAGULUI", "KAUFLAND_LAZAR", "PROFI_COMPLEX" ]
         }
       }
     },
@@ -252,10 +253,6 @@
           "items" : {
             "$ref" : "#/definitions/PriceMdl"
           }
-        },
-        "totalSum" : {
-          "type" : "number",
-          "format" : "double"
         }
       }
     },

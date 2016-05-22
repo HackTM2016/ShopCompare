@@ -1,12 +1,16 @@
 package ro.hacktm.pricediff.mdl;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
 import java.util.List;
 
 /**
@@ -15,6 +19,10 @@ import java.util.List;
  * @author Gabriela Potanc
  * @since 21.05.2016
  */
+@Entity
+@Table(name = ProfileMdl.TABLE)
+@NamedQueries({
+        @NamedQuery(name = ProfileMdl.FIND_BY_USERNAME, query = "select p from ProfileMdl p where p.username = :username")})
 public class ProfileMdl {
 
     protected static final String SEQUENCE_SUFFIX = "_SEQ";
@@ -25,6 +33,8 @@ public class ProfileMdl {
     private static final String GENERATOR = BASE + GENERATOR_SUFFIX;
     private static final String SEQUENCE = BASE + SEQUENCE_SUFFIX;
     static final String TABLE = BASE;
+
+    public static final String FIND_BY_USERNAME = "ProductMdl.FIND_BY_USERNAME";
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = GENERATOR)
@@ -43,4 +53,40 @@ public class ProfileMdl {
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "profile")
     private List<PriceMdl> prices;
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(final String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(final String password) {
+        this.password = password;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(final String email) {
+        this.email = email;
+    }
+
+    public List<PriceMdl> getPrices() {
+        return prices;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(final String id) {
+        this.id = id;
+    }
 }

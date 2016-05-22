@@ -7,7 +7,6 @@
     <jta-data-source>jdbc/UspCoreResource</jta-data-source>
 
     <class>ro.hacktm.pricediff.mdl.ProductMdl</class>
-    <class>ro.hacktm.pricediff.mdl.ProfileMdl</class>
     <class>ro.hacktm.pricediff.mdl.PriceMdl</class>
 
     <properties>
