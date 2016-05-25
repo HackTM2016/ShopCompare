@@ -16,6 +16,7 @@ class SearchTableCell: UITableViewCell {
     @IBOutlet weak var productName: UILabel!
     @IBOutlet weak var statusButton: UIButton!
     @IBOutlet weak var addButton: UIButton!
+    @IBOutlet weak var backView: UIView!
     
     var product:ProductMdl?
     
@@ -24,7 +25,7 @@ class SearchTableCell: UITableViewCell {
         addButton.layer.borderWidth = 1
         addButton.layer.cornerRadius = 15
         statusButton.hidden =  true
-        
+        backView.layer.cornerRadius = 2
     }
     
     @IBAction func addButtonPressed() {

@@ -13,5 +13,6 @@ class CategoryCell : UICollectionViewCell {
     @IBOutlet weak var categoryColor: UIView!
     @IBOutlet weak var categoryName: UILabel!
     @IBOutlet weak var categoryImage: UIImageView!
+    @IBOutlet weak var backView: UIView!
     
 }

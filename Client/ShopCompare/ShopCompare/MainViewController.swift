@@ -129,9 +129,9 @@ class MainViewController: UIViewController, UICollectionViewDelegate, UICollecti
         cell.categoryName.text = categories[indexPath.row]
         cell.categoryColor.backgroundColor = UIColor(hexString: categoryColor[indexPath.row])
         cell.categoryImage.image = UIImage(named: categorieImage[indexPath.row])
-        cell.contentView.layer.shadowOffset = CGSize(width: 1, height: 2)
-        cell.contentView.layer.shadowOpacity = 0.3
-        cell.contentView.layer.shadowRadius = 3
+        cell.backView.layer.cornerRadius = 2
+        cell.backView.layer.shadowOffset = CGSize(width: 1, height: 2)
+        cell.backView.layer.shadowOpacity = 0.3
         
         return cell
     }

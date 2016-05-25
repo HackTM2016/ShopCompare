@@ -13,6 +13,7 @@ class MyListCell: UITableViewCell {
     @IBOutlet weak var itemName: UILabel!
     @IBOutlet weak var itemPrice: UILabel!
     @IBOutlet weak var categoryView: UIView!
+    @IBOutlet weak var backView: UIView!
 
     @IBOutlet weak var viewToRound: UIView!
     
@@ -31,6 +32,7 @@ class MyListCell: UITableViewCell {
         viewToRound.layer.borderColor = UIColor.lightGrayColor().CGColor
         viewToRound.layer.borderWidth = 1
         viewToRound.layer.cornerRadius = 6
+        backView.layer.cornerRadius = 2
     }
     
 }
