@@ -37,7 +37,7 @@
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
 	<key>ServerURL</key>
-	<string>http://172.16.3.231:9380/pricediff/app</string>
+	<string>http://ec2-52-39-117-224.us-west-2.compute.amazonaws.com:9380/pricediff/app</string>
 	<key>NSAppTransportSecurity</key>
 	<dict>
 		<key>NSAllowsArbitraryLoads</key>

@@ -18,7 +18,6 @@ class AddProductController: UIViewController {
     @IBOutlet weak var numeTextfield: UITextField!
     @IBOutlet weak var pretTextfield: UITextField!
     @IBOutlet weak var confirmaButon: UIButton!
-    @IBOutlet weak var anuleazaButon: UIButton!
     
     @IBOutlet weak var radius1but: UIButton!
     @IBOutlet weak var radius2but: UIButton!
@@ -43,10 +42,6 @@ class AddProductController: UIViewController {
         barcodeScanner = storyboard.instantiateViewControllerWithIdentifier("ROBarcodeScannerViewControllerScene") as? ROBarcodeScannerViewController
         
         // Do any additional setup after loading the view.
-        
-        anuleazaButon.layer.cornerRadius = 20
-        anuleazaButon.layer.borderWidth = 1
-        anuleazaButon.layer.borderColor = UIColor(hexString: "#735dd8").CGColor
         
         confirmaButon.layer.cornerRadius = 20
         confirmaButon.layer.shadowOffset = CGSize(width: 0, height: 0)
@@ -113,7 +108,7 @@ class AddProductController: UIViewController {
     
     @IBAction func confirmButtonPressed() {
         
-        var currentLocation = CLLocation!()
+        var currentLocation = CLLocation()
         var coordonate = "0.00,0.00"
 
         LoadingScreenCtrl.sharedInstance.showLoading()
@@ -121,7 +116,7 @@ class AddProductController: UIViewController {
         if( CLLocationManager.authorizationStatus() == CLAuthorizationStatus.AuthorizedWhenInUse ||
             CLLocationManager.authorizationStatus() == CLAuthorizationStatus.AuthorizedAlways){
             
-            currentLocation = locManager.location
+            currentLocation = locManager.location!
             
             coordonate = "\(currentLocation.coordinate.latitude),\(currentLocation.coordinate.longitude)"
             

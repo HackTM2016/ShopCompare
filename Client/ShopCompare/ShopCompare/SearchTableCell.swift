@@ -30,22 +30,11 @@ class SearchTableCell: UITableViewCell {
     
     @IBAction func addButtonPressed() {
         
-            AppModel.instanta.selectedItemsID = AppModel.instanta.selectedItemsID + ",\(product!.id!)"
+            AppModel.instanta.adaugaIdInLista(product!.id!)
             addButton.enabled = false
-            addButton.hidden = true
-            // TODO: change button color
-            
-            LoadingScreenCtrl.sharedInstance.showLoading()
-            
-            // make the best deal request
-            SwaggerClientAPI.RestAPI.findBestDeal(list: AppModel.instanta.selectedItemsID).execute { (response, error) in
-                
-                LoadingScreenCtrl.sharedInstance.hideLoading()
-                
-                if error == nil && response != nil {
-                    AppModel.instanta.shopingList = (response?.body)!
-                }
-            }
+        
+            addButton.setTitle("Adaugat", forState: .Normal)
+            addButton.backgroundColor = UIColor(hexString: "#E7E7E7")
         
     }
     

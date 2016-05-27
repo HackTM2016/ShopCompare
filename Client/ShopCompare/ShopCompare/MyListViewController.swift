@@ -50,8 +50,8 @@ class MyListViewController: UIViewController, UITableViewDelegate, UITableViewDa
         if let bestPrice = product.bestPrice {
             cell.itemPrice.text = "\(bestPrice.price!)"
         }
-        cell.categoryView.backgroundColor = UIColor(hexString:product.productMdl!.category!.rawValue)
-
+        
+        cell.categoryView.backgroundColor = UIColor(hexString:categoryColor[(product.productMdl!.category?.rawValue)!]!)
         
         if let atlePreturiList = product.otherPrices {
             if atlePreturiList.count > 0 {

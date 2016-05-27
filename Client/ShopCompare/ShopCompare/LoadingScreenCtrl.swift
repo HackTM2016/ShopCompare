@@ -15,8 +15,14 @@ class LoadingScreenCtrl {
     static var sharedInstance = LoadingScreenCtrl()
     
     init () {
-        loadingView = UIView(frame: (UIApplication.sharedApplication().keyWindow?.rootViewController?.view.frame)!)
-        loadingView?.backgroundColor = UIColor(colorLiteralRed: 0, green: 0, blue: 0, alpha: 0.5)
+        let windowFrame = UIApplication.sharedApplication().keyWindow?.rootViewController?.view.frame
+        loadingView = UIView(frame: windowFrame!)
+        loadingView?.backgroundColor = UIColor.whiteColor()
+        let logoImage = UIImageView(frame: CGRectMake(((windowFrame?.width)! - 210) / 2, ((windowFrame?.height)! - 200) / 2, 210, 200))
+        logoImage.image = UIImage(named: "logoBig")
+        loadingView?.addSubview(logoImage)
+        
+        loadingView?.alpha = 0.9
     }
     
     func showLoading() {

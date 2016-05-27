@@ -8,7 +8,7 @@
 
 import UIKit
 
-class SearchController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class SearchController: UIViewController, UITableViewDelegate, UITableViewDataSource{
 
     @IBOutlet weak var foundInfoLabel: UILabel!
     @IBOutlet weak var table: UITableView!
@@ -24,12 +24,10 @@ class SearchController: UIViewController, UITableViewDelegate, UITableViewDataSo
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        if let lista = list {
-            foundInfoLabel.text = "\(lista.count) produse gasite"
-        }
-    
         table.delegate = self
         table.dataSource = self
+        
+        table.reloadData()
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -47,13 +45,21 @@ class SearchController: UIViewController, UITableViewDelegate, UITableViewDataSo
         cell.productName.text = list![indexPath.row].name
         cell.categoryView.backgroundColor = UIColor(hexString:categoryColor[(list![indexPath.row].category?.rawValue)!]!)
         cell.product = list![indexPath.row]
-        cell.addButton.hidden = false
+        cell.addButton.setTitle("+ Adauga", forState: .Normal)
+        cell.addButton.backgroundColor = UIColor.whiteColor()
         cell.selectionStyle = .None
         
         if let id = list![indexPath.row].id {
-            if AppModel.instanta.selectedItemsID.rangeOfString(","+id) != nil{
-                cell.addButton.enabled = false
-                cell.addButton.hidden = true
+            
+            let rangeOfString = AppModel.instanta.selectedItemsID.rangeOfString(","+id)
+            if rangeOfString != nil {
+                if rangeOfString?.endIndex == AppModel.instanta.selectedItemsID.endIndex ||
+                    AppModel.instanta.selectedItemsID.substringWithRange((rangeOfString?.endIndex)!..<(rangeOfString?.endIndex.advancedBy(1))!) == "," {
+                
+                    cell.addButton.enabled = false
+                    cell.addButton.setTitle("Adaugat", forState: .Normal)
+                    cell.addButton.backgroundColor = UIColor(hexString: "#E7E7E7")
+                }
             }
         }
         
@@ -69,5 +75,15 @@ class SearchController: UIViewController, UITableViewDelegate, UITableViewDataSo
                 cell.addButtonPressed()
             }
         }
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        if let lista = list {
+            foundInfoLabel?.text = "\(lista.count) produse gasite"
+        }
+        
+        table.reloadData()
     }
 }

@@ -8,7 +8,7 @@
 
 import UIKit
 
-class MainViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
+class MainViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UITextFieldDelegate {
 
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var roundedView: UIView!
@@ -19,6 +19,7 @@ class MainViewController: UIViewController, UICollectionViewDelegate, UICollecti
     @IBOutlet weak var browseButton: UIButton!
     @IBOutlet weak var profileButton: UIButton!
     @IBOutlet weak var mainVIew: UIView!
+    @IBOutlet weak var listOverView: UIView!
 
     @IBOutlet weak var browseIndicator: UIView!
     @IBOutlet weak var profileIndicator: UIView!
@@ -75,7 +76,7 @@ class MainViewController: UIViewController, UICollectionViewDelegate, UICollecti
             
         AppModel.instanta.userId = "1"
         
-        
+        textField.delegate = self
 
     }
 
@@ -149,35 +150,69 @@ class MainViewController: UIViewController, UICollectionViewDelegate, UICollecti
                 self.showSearchScreenWithResponse(response?.body)
             }
         }
-        
     }
     
     func showSearchScreenWithResponse(list:[ProductMdl]?) {
         
         searchCtrl?.list = list
-        self.collectionView.addSubview(searchCtrl!.view)
         addChildViewController(searchCtrl!)
-        searchCtrl?.table.reloadData()
+        self.listOverView.addSubview(searchCtrl!.view)
+        self.listOverView.userInteractionEnabled = true
         browseIndicator.hidden = true
         browseButton.setTitle("Inapoi", forState: .Normal)
+    }
+    
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
         
+        if let searchText = textField.text {
+
+            textField.resignFirstResponder()
+            
+            LoadingScreenCtrl.sharedInstance.showLoading()
+            
+            // make the best deal request
+            SwaggerClientAPI.RestAPI.findProduct(category: "", query: searchText).execute { (response, error) in
+                
+                LoadingScreenCtrl.sharedInstance.hideLoading()
+                
+                if error == nil && response != nil && response?.body.count > 0 {
+                    self.showSearchScreenWithResponse(response?.body)
+                }
+            }
+        }
+
+        return true
     }
     
     @IBAction func addProductButtonPressed() {
         self.mainVIew.addSubview(addCtrl!.view)
         addChildViewController(addCtrl!)
+        browseIndicator.hidden = true
+        browseButton.setTitle("Inapoi", forState: .Normal)
     }
     
     @IBAction func listButtonPressed() {
         
         if listOnScreen == false {
-            self.mainVIew.addSubview(listCtrl!.view)
-            addChildViewController(listCtrl!)
-            browseIndicator.hidden = true
-            profileIndicator.hidden = true
-            browseButton.setTitle("Inapoi", forState: .Normal)
-            listCtrl?.refreshData()
-            listOnScreen = true
+            if AppModel.instanta.listChanged == true {
+                
+                LoadingScreenCtrl.sharedInstance.showLoading()
+                
+                // make the best deal request
+                SwaggerClientAPI.RestAPI.findBestDeal(list: AppModel.instanta.selectedItemsID).execute { (response, error) in
+                    
+                    LoadingScreenCtrl.sharedInstance.hideLoading()
+                    
+                    if error == nil && response != nil {
+                        AppModel.instanta.shopingList = (response?.body)!
+                        AppModel.instanta.listChanged = false
+                        self.showList()
+                    }
+                }
+                
+            } else {
+                showList()
+            }
         }
         
     }
@@ -197,16 +232,40 @@ class MainViewController: UIViewController, UICollectionViewDelegate, UICollecti
     @IBAction func browseButtonPressed() {
         searchCtrl!.view.removeFromSuperview()
         searchCtrl!.removeFromParentViewController()
+        self.listOverView.userInteractionEnabled = false
         browseIndicator.hidden = false
-        browseButton.setTitle("Browse", forState: .Normal)
+        browseButton.setTitle("Catalog", forState: .Normal)
         listCtrl!.view.removeFromSuperview()
         listCtrl!.removeFromParentViewController()
         profilCtrl?.view.removeFromSuperview()
         profilCtrl?.removeFromParentViewController()
+        addCtrl?.view.removeFromSuperview()
+        addCtrl?.removeFromParentViewController()
         listOnScreen = false
         profileIndicator.hidden = true
         profilOnScreen = false
     }
     
+    func showList(){
+        self.mainVIew.addSubview(listCtrl!.view)
+        addChildViewController(listCtrl!)
+        browseIndicator.hidden = true
+        profileIndicator.hidden = true
+        browseButton.setTitle("Inapoi", forState: .Normal)
+        listCtrl?.refreshData()
+        listOnScreen = true
+    }
 }
 
+extension MainViewController : UICollectionViewDelegateFlowLayout {
+
+    func collectionView(collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                               sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
+        
+ 
+        let screenBounds = UIScreen.mainScreen().bounds
+        return CGSize(width: (screenBounds.width - 20 ) / 2 , height: (screenBounds.height - 140) / 2)
+    }
+    
+}

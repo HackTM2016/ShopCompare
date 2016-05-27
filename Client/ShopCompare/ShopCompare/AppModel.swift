@@ -15,9 +15,15 @@ class AppModel {
     var userCredits : Double = 22
     var selectedItemsID = ""
     var shopingList = [ProductResponseMdl]()
+    var listChanged = false
     
     init () {
         SwaggerClientAPI.basePath = NSBundle.mainBundle().infoDictionary?["ServerURL"] as! String
         userId = "1"
+    }
+    
+    func adaugaIdInLista(id : String){
+        selectedItemsID = selectedItemsID + ",\(id)"
+        listChanged = true
     }
 }
